@@ -6,29 +6,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
+/**
+ * Permits generate and manage entity Book object
+ */
 @Entity
 public class Book {
 
+    /**
+     * Identifier for book entity
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    /**Identifier for book entity */
     @Column(nullable = true)
     private String genre;
+    /**Author for book entity */
     @Column(nullable = false)
     private String author;
+    /**iIage for book entity */
     @Column(nullable = false)
     private String image;
+    /**Title for book entity */
     @Column(nullable = false)
     private String title;
+    /**Subtitle for book entity */
     @Column(nullable = false)
     private String subtitle;
+    /**Publisher for book entity */
     @Column(nullable = false)
     private String publisher;
+    /**Year publish for book entity */
     @Column(nullable = false)
     private String year;
+    /**Number pages for book entity */
     @Column(nullable = false)
     private String pages;
+    /**Number ISBN for book entity */
     @Column(nullable = false)
     private String isbn;
 
