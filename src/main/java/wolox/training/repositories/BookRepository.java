@@ -20,10 +20,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      */
     Optional<Book> findByTitle(String title);
 
-    /**
-     * Finds a book by id.
-     * @param id book's identification
-     * @return {@link Optional} an object book
-     */
-    Optional<Book> findById(Long id);
 }
