@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
  * @author carolina.marulanda@wolox.co
  */
 @ControllerAdvice
-public class RestExceptionController  extends ResponseEntityExceptionHandler {
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Intercepts custom exception BookNotFoundException and sends exception´s details

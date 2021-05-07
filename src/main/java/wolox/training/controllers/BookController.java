@@ -49,7 +49,7 @@ public class BookController {
     /**
      * This method returns book's {@link List}, which match with title received as parameter
      * @param bookTitle book's title
-     * @return {@link List} book's list
+     * @return {@link Optional} book's list
      */
     @GetMapping("/title/{bookTitle}")
     public Optional<Book> findByTitle(@PathVariable String bookTitle) {
