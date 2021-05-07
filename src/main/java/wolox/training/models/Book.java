@@ -32,9 +32,6 @@ public class Book {
     @Column(nullable = false)
     private String isbn;
 
-    public Book() {
-    }
-
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
         super();
         this.genre = genre;
@@ -47,6 +44,8 @@ public class Book {
         this.pages = pages;
         this.isbn = isbn;
     }
+
+    public Book(){}
 
     public long getId() {
         return id;
