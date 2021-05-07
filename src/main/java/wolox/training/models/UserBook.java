@@ -19,7 +19,7 @@ public class UserBook {
     /**Date of birthday user's books */
     private LocalDate birthdate;
     /**List user's books  */
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "noveltyRequest")
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity=Book.class, orphanRemoval = true)
     private List<Book> books;
 
     /**
@@ -72,5 +72,13 @@ public class UserBook {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public void addBookList(Book book){
+        this.books.add(book);
+    }
+
+    public void deleteBookList(Book book){
+        this.books.remove(book);
     }
 }
