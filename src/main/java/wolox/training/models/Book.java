@@ -19,7 +19,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     /**Identifier for book entity */
-    @Column(nullable = true)
+    @Column
     private String genre;
     /**Author for book entity */
     @Column(nullable = false)
