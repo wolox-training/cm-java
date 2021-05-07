@@ -81,4 +81,14 @@ public class UserBook {
     public void deleteBookList(Book book){
         this.books.remove(book);
     }
+
+    /**
+     * Shows user object on string
+     * @return {@link String} object shape in string
+     */
+    @Override
+    public String toString() {
+        return "User [username=" + username + ", name=" + name + ", birthday=" + birthdate + ", books=" + books.toString() + "]";
+
+    }
 }
