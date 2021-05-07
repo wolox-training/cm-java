@@ -4,19 +4,31 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
  * This class permits manage user´s books
  */
+
+@Entity
 public class UserBook {
 
+
     /**Username user's books */
+    @Id
+    @Column(name="ID")
+    private int id;
+    @Column(name="USERNAME",nullable = false)
     private String username;
     /**First name user's books */
+    @Column(name="NAME",nullable = false)
     private String name;
     /**Date of birthday user's books */
+    @Column(name="BIRTHDATE",nullable = false)
     private LocalDate birthdate;
     /**List user's books  */
     @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity=Book.class, orphanRemoval = true)
@@ -40,6 +52,10 @@ public class UserBook {
         this.name = name;
         this.birthdate = birthdate;
         this.books = books;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {
