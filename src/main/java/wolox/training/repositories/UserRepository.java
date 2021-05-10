@@ -16,14 +16,15 @@ public interface UserRepository extends JpaRepository<UserBook, Long> {
     /**
      * Permits find any exist user by its username
      * @param username: Name user's book
-     * @return {@link Optional} User
+     * @return {@link Optional} an object user
      */
     Optional<UserBook> findByUsername(String username);
 
     /**
-     * Finds a book by id.
+     * Finds a user by name.
      * @param name: Name of user's book
-     * @return {@link Optional} an object book
+     * @return {@link Optional} an object user
      */
     Optional<UserBook> findByName(String name);
+
 }

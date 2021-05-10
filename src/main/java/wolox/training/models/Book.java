@@ -1,7 +1,7 @@
 package wolox.training.models;
 
-import javax.persistence.Entity;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,8 +18,8 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    /**Identifier for book entity */
-    @Column(name="GENRE")
+    /**Genre for book entity */
+    @Column(name="GENRE",nullable = false)
     private String genre;
     /**Author for book entity */
     @Column(name="AUTHOR",nullable = false)

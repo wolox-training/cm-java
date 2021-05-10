@@ -1,14 +1,15 @@
 package wolox.training.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 /**
  * This class permits manage user´s books
@@ -18,10 +19,11 @@ import javax.persistence.OneToMany;
 public class UserBook {
 
 
-    /**Username user's books */
+    /**Identifier user's books */
     @Id
-    @Column(name="ID")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    /**Username user's books */
     @Column(name="USERNAME",nullable = false)
     private String username;
     /**First name user's books */
@@ -31,8 +33,8 @@ public class UserBook {
     @Column(name="BIRTHDATE",nullable = false)
     private LocalDate birthdate;
     /**List user's books  */
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity=Book.class, orphanRemoval = true)
-    private List<Book> books;
+    @ManyToMany
+    private List<Book> books =new ArrayList<>();
 
     /**
      * Empty constructor
@@ -54,7 +56,7 @@ public class UserBook {
         this.books = books;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -90,12 +92,14 @@ public class UserBook {
         this.books = books;
     }
 
-    public void addBookList(Book book){
+    public List<Book>  addBookList(Book book){
         this.books.add(book);
+        return this.books;
     }
 
-    public void deleteBookList(Book book){
+    public List<Book> deleteBookList(Book book){
         this.books.remove(book);
+        return this.books;
     }
 
     /**
