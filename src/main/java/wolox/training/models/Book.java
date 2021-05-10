@@ -19,31 +19,31 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     /**Identifier for book entity */
-    @Column
+    @Column(name="GENRE")
     private String genre;
     /**Author for book entity */
-    @Column(nullable = false)
+    @Column(name="AUTHOR",nullable = false)
     private String author;
-    /**iIage for book entity */
-    @Column(nullable = false)
+    /**Image for book entity */
+    @Column(name="IMAGE",nullable = false)
     private String image;
     /**Title for book entity */
-    @Column(nullable = false)
+    @Column(name="TITLE",nullable = false)
     private String title;
     /**Subtitle for book entity */
-    @Column(nullable = false)
+    @Column(name="SUBTITLE",nullable = false)
     private String subtitle;
     /**Publisher for book entity */
-    @Column(nullable = false)
+    @Column(name="PUBLISHER",nullable = false)
     private String publisher;
     /**Year publish for book entity */
-    @Column(nullable = false)
+    @Column(name="YEAR",nullable = false)
     private String year;
     /**Number pages for book entity */
-    @Column(nullable = false)
+    @Column(name="PAGES",nullable = false)
     private String pages;
     /**Number ISBN for book entity */
-    @Column(nullable = false)
+    @Column(name="ISBN",nullable = false)
     private String isbn;
 
     public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
