@@ -19,4 +19,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @return {@link Optional} Book's list
      */
     Optional<Book> findByTitle(String title);
+
 }
