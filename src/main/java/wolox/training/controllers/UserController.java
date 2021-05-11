@@ -50,9 +50,10 @@ public class UserController {
      *
      * @return {@link Optional} book's user
      */
-    @GetMapping("/user/{userUsername}")
-    public Optional<UserBook> findByUsername(@PathVariable String username) {
-        return userRepository.findByUsername(username);
+    @GetMapping("/username/{userUsername}")
+    public UserBook findByUsername(@PathVariable String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("Not found user by username"));
     }
 
     /**
@@ -62,9 +63,9 @@ public class UserController {
      *
      * @return {@link Optional} book's user
      */
-    @GetMapping("/user/{name}")
-    public Optional<UserBook> findByName(@PathVariable String name) {
-        return userRepository.findByName(name);
+    @GetMapping("/name/{name}")
+    public UserBook findByName(@PathVariable String name) {
+        return userRepository.findByName(name).orElseThrow(() -> new UserNotFoundException("Not found user by name"));
     }
 
     /**
@@ -95,16 +96,16 @@ public class UserController {
     /**
      * This method deleted a book from user's list books, which match with id received by parameter
      *
-     * @param idUser: User's identify number
-     * @param idBook: Book's identify number
+     * @param userId: User's identify number
+     * @param bookId: Book's identify number
      */
-    @DeleteMapping("/{idUser}/{idBook}")
-    public void deleteBookListUser(@PathVariable String idUser, @PathVariable String idBook) {
+    @DeleteMapping("/{userId}/books/{bookId}")
+    public void deleteBookListUser(@PathVariable String userId, @PathVariable String bookId) {
 
-        UserBook user = userRepository.findById(Long.parseLong(idUser))
+        UserBook user = userRepository.findById(Long.parseLong(userId))
                 .orElseThrow(() -> new UserNotFoundException("Not found user id"));
-        Book book = bookRepository.findById(Long.parseLong(idBook))
-                .orElseThrow(() -> new UserNotFoundException("Not found book id"));
+        Book book = bookRepository.findById(Long.parseLong(bookId))
+                .orElseThrow(() -> new BookNotFoundException("Not found book id"));
         List<Book> books = user.deleteBookList(book);
         user.setBooks(books);
         userRepository.save(user);
@@ -113,16 +114,16 @@ public class UserController {
     /**
      * This method add a book from user's list books, which match with id received by parameter
      *
-     * @param idUser: User's identify number
-     * @param idBook: Book's identify number
+     * @param userId: User's identify number
+     * @param bookId: Book's identify number
      */
-    @PutMapping("/{idUser}/{idBook}")
-    public void addBookListUser(@PathVariable String idUser, @PathVariable String idBook) {
+    @PutMapping("/{userId}/books/{bookId}")
+    public void addBookListUser(@PathVariable String userId, @PathVariable String bookId) {
 
-        UserBook user = userRepository.findById(Long.parseLong(idUser))
+        UserBook user = userRepository.findById(Long.parseLong(userId))
                 .orElseThrow(() -> new UserNotFoundException("Not found user id"));
-        Book book = bookRepository.findById(Long.parseLong(idBook))
-                .orElseThrow(() -> new UserNotFoundException("Not found book id"));
+        Book book = bookRepository.findById(Long.parseLong(bookId))
+                .orElseThrow(() -> new BookNotFoundException("Not found book id"));
         List<Book> books = user.addBookList(book);
         user.setBooks(books);
         userRepository.save(user);
