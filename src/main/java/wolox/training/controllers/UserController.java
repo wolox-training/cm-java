@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import wolox.training.common.Constants;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
@@ -58,7 +59,7 @@ public class UserController {
     @GetMapping("/username/{userUsername}")
     public UserBook findByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("Not found user by username"));
+                .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
     }
 
     /**
@@ -70,7 +71,8 @@ public class UserController {
      */
     @GetMapping("/name/{name}")
     public UserBook findByName(@PathVariable String name) {
-        return userRepository.findByName(name).orElseThrow(() -> new UserNotFoundException("Not found user by name"));
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
     }
 
     /**
@@ -94,7 +96,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Not found user id"));
+                .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
         userRepository.deleteById(id);
     }
 
@@ -108,9 +110,9 @@ public class UserController {
     public void deleteBookListUser(@PathVariable String userId, @PathVariable String bookId) {
 
         UserBook user = userRepository.findById(Long.parseLong(userId))
-                .orElseThrow(() -> new UserNotFoundException("Not found user id"));
+                .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
         Book book = bookRepository.findById(Long.parseLong(bookId))
-                .orElseThrow(() -> new BookNotFoundException("Not found book id"));
+                .orElseThrow(() -> new BookNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_BOOK));
         List<Book> books = user.deleteBookList(book);
         user.setBooks(books);
         userRepository.save(user);
@@ -134,9 +136,9 @@ public class UserController {
             @ApiParam(value = "Id book to add", required = true) @PathVariable String bookId) {
 
         UserBook user = userRepository.findById(Long.parseLong(userId))
-                .orElseThrow(() -> new UserNotFoundException("Not found user id"));
+                .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
         Book book = bookRepository.findById(Long.parseLong(bookId))
-                .orElseThrow(() -> new BookNotFoundException("Not found book id"));
+                .orElseThrow(() -> new BookNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_BOOK));
         List<Book> books = user.addBookList(book);
         user.setBooks(books);
         userRepository.save(user);
@@ -151,12 +153,12 @@ public class UserController {
      * @return {@link UserBook} book updated
      */
     @PutMapping("/{id}")
-    public UserBook updateBook(@RequestBody UserBook userBook, @PathVariable Long id) {
+    public UserBook updateUserBook(@RequestBody UserBook userBook, @PathVariable Long id) {
         if (userBook.getId() != id) {
-            throw new UserNotFoundException("Not found user id");
+            throw new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER);
         }
         userRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException("Not found user id"));
+                .orElseThrow(() -> new BookNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
         return userRepository.save(userBook);
     }
 

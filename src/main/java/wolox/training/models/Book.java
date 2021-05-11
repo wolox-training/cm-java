@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,35 +19,36 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    /**Genre for book entity */
-    @Column(name="GENRE",nullable = false)
+    /** Genre for book entity */
+    @Column(name = "GENRE", nullable = false)
     private String genre;
-    /**Author for book entity */
-    @Column(name="AUTHOR",nullable = false)
+    /** Author for book entity */
+    @Column(name = "AUTHOR", nullable = false)
     private String author;
-    /**Image for book entity */
-    @Column(name="IMAGE",nullable = false)
+    /** Image for book entity */
+    @Column(name = "IMAGE", nullable = false)
     private String image;
-    /**Title for book entity */
-    @Column(name="TITLE",nullable = false)
+    /** Title for book entity */
+    @Column(name = "TITLE", nullable = false)
     private String title;
-    /**Subtitle for book entity */
-    @Column(name="SUBTITLE",nullable = false)
+    /** Subtitle for book entity */
+    @Column(name = "SUBTITLE", nullable = false)
     private String subtitle;
-    /**Publisher for book entity */
-    @Column(name="PUBLISHER",nullable = false)
+    /** Publisher for book entity */
+    @Column(name = "PUBLISHER", nullable = false)
     private String publisher;
-    /**Year publish for book entity */
-    @Column(name="YEAR",nullable = false)
+    /** Year publish for book entity */
+    @Column(name = "YEAR", nullable = false)
     private String year;
-    /**Number pages for book entity */
-    @Column(name="PAGES",nullable = false)
+    /** Number pages for book entity */
+    @Column(name = "PAGES", nullable = false)
     private String pages;
-    /**Number ISBN for book entity */
-    @Column(name="ISBN",nullable = false)
+    /** Number ISBN for book entity */
+    @Column(name = "ISBN", nullable = false)
     private String isbn;
 
-    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year, String pages, String isbn) {
+    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year,
+            String pages, String isbn) {
         super();
         this.genre = genre;
         this.author = author;
@@ -59,7 +61,8 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public Book(){}
+    public Book() {
+    }
 
     public long getId() {
         return id;
@@ -70,6 +73,7 @@ public class Book {
     }
 
     public void setGenre(String genre) {
+        Preconditions.checkNotNull(genre, "genre cant be null");
         this.genre = genre;
     }
 
@@ -78,6 +82,8 @@ public class Book {
     }
 
     public void setAuthor(String author) {
+
+        Preconditions.checkNotNull(author, "author cant be null");
         this.author = author;
     }
 
@@ -86,6 +92,7 @@ public class Book {
     }
 
     public void setImage(String image) {
+        Preconditions.checkNotNull(image, "image cant be null");
         this.image = image;
     }
 
@@ -94,6 +101,8 @@ public class Book {
     }
 
     public void setTitle(String title) {
+
+        Preconditions.checkNotNull(title, "title cant be null");
         this.title = title;
     }
 
@@ -102,6 +111,8 @@ public class Book {
     }
 
     public void setSubtitle(String subtitle) {
+
+        Preconditions.checkNotNull(subtitle, "subtitle cant be null");
         this.subtitle = subtitle;
     }
 
@@ -110,6 +121,8 @@ public class Book {
     }
 
     public void setPublisher(String publisher) {
+
+        Preconditions.checkNotNull(publisher, "publisher cant be null");
         this.publisher = publisher;
     }
 
@@ -118,6 +131,8 @@ public class Book {
     }
 
     public void setYear(String year) {
+
+        Preconditions.checkNotNull(year, "year cant be null");
         this.year = year;
     }
 
@@ -126,6 +141,8 @@ public class Book {
     }
 
     public void setPages(String pages) {
+
+        Preconditions.checkNotNull(pages, "pages cant be null");
         this.pages = pages;
     }
 
@@ -134,13 +151,17 @@ public class Book {
     }
 
     public void setIsbn(String isbn) {
+
+        Preconditions.checkNotNull(isbn, "isbn cant be null");
         this.isbn = isbn;
     }
 
 
     @Override
     public String toString() {
-        return "Book [id=" + id + ", genre=" + genre + ", author=" + author + ", image=" + image + ", title=" + title + ", subtitle=" + subtitle + ", publisher=" + publisher + ", year" + year + ", pages=" + pages + ", isbn=" + isbn + "]";
+        return "Book [id=" + id + ", genre=" + genre + ", author=" + author + ", image=" + image + ", title=" + title
+                + ", subtitle=" + subtitle + ", publisher=" + publisher + ", year" + year + ", pages=" + pages
+                + ", isbn=" + isbn + "]";
 
     }
 }
