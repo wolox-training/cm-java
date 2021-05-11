@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,11 +53,12 @@ public class UserController {
      *
      * @param username user's username
      *
-     * @return {@link Optional} book's user
+     * @return {@link UserBook} book's user
      */
-    @GetMapping("/user/{userUsername}")
-    public Optional<UserBook> findByUsername(@PathVariable String username) {
-        return userRepository.findByUsername(username);
+    @GetMapping("/username/{userUsername}")
+    public UserBook findByUsername(@PathVariable String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("Not found user by username"));
     }
 
     /**
@@ -66,11 +66,11 @@ public class UserController {
      *
      * @param name user's name
      *
-     * @return {@link Optional} book's user
+     * @return {@link UserBook} book's user
      */
-    @GetMapping("/user/{name}")
-    public Optional<UserBook> findByName(@PathVariable String name) {
-        return userRepository.findByName(name);
+    @GetMapping("/name/{name}")
+    public UserBook findByName(@PathVariable String name) {
+        return userRepository.findByName(name).orElseThrow(() -> new UserNotFoundException("Not found user by name"));
     }
 
     /**
@@ -101,16 +101,16 @@ public class UserController {
     /**
      * This method deleted a book from user's list books, which match with id received by parameter
      *
-     * @param idUser: User's identify number
-     * @param idBook: Book's identify number
+     * @param userId: User's identify number
+     * @param bookId: Book's identify number
      */
-    @DeleteMapping("/{idUser}/{idBook}")
-    public void deleteBookListUser(@PathVariable String idUser, @PathVariable String idBook) {
+    @DeleteMapping("/{userId}/books/{bookId}")
+    public void deleteBookListUser(@PathVariable String userId, @PathVariable String bookId) {
 
-        UserBook user = userRepository.findById(Long.parseLong(idUser))
+        UserBook user = userRepository.findById(Long.parseLong(userId))
                 .orElseThrow(() -> new UserNotFoundException("Not found user id"));
-        Book book = bookRepository.findById(Long.parseLong(idBook))
-                .orElseThrow(() -> new UserNotFoundException("Not found book id"));
+        Book book = bookRepository.findById(Long.parseLong(bookId))
+                .orElseThrow(() -> new BookNotFoundException("Not found book id"));
         List<Book> books = user.deleteBookList(book);
         user.setBooks(books);
         userRepository.save(user);
@@ -119,10 +119,10 @@ public class UserController {
     /**
      * This method add a book from user's list books, which match with id received by parameter
      *
-     * @param idUser: User's identify number
-     * @param idBook: Book's identify number
+     * @param userId: User's identify number
+     * @param bookId: Book's identify number
      */
-    @PutMapping("/{idUser}/{idBook}")
+    @PutMapping("/{userId}/books/{bookId}")
     @ApiOperation(value = "Add a book to user's book collection")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
@@ -130,13 +130,13 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not found book id")
 
     })
-    public void addBookListUser(@ApiParam(value = "Id user book owner", required = true) @PathVariable String idUser,
-            @ApiParam(value = "Id book to add", required = true) @PathVariable String idBook) {
+    public void addBookListUser(@ApiParam(value = "Id user book owner", required = true) @PathVariable String userId,
+            @ApiParam(value = "Id book to add", required = true) @PathVariable String bookId) {
 
-        UserBook user = userRepository.findById(Long.parseLong(idUser))
+        UserBook user = userRepository.findById(Long.parseLong(userId))
                 .orElseThrow(() -> new UserNotFoundException("Not found user id"));
-        Book book = bookRepository.findById(Long.parseLong(idBook))
-                .orElseThrow(() -> new UserNotFoundException("Not found book id"));
+        Book book = bookRepository.findById(Long.parseLong(bookId))
+                .orElseThrow(() -> new BookNotFoundException("Not found book id"));
         List<Book> books = user.addBookList(book);
         user.setBooks(books);
         userRepository.save(user);
