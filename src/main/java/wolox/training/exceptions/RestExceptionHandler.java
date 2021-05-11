@@ -57,4 +57,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
+    /**
+     * Intercepts custom exception UserNotFoundException and sends exception´s details
+     * @param ex: UserNotFoundException, exception received
+     * @param request: request received
+     * @return {@link ResponseEntity} response with object that contains exception´s details
+     */
+    @ExceptionHandler({ UserNotFoundException.class})
+    public ResponseEntity<Object> handleUserNotFoundException(
+            Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getLocalizedMessage(),
+                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
 }

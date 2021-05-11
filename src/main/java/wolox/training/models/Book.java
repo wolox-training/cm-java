@@ -18,8 +18,8 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    /**Identifier for book entity */
-    @Column(name="GENRE")
+    /**Genre for book entity */
+    @Column(name="GENRE",nullable = false)
     private String genre;
     /**Author for book entity */
     @Column(name="AUTHOR",nullable = false)
