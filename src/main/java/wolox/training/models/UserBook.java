@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,25 +18,27 @@ import javax.persistence.ManyToMany;
  */
 
 @Entity
+@ApiModel(description = "Users, who are book's owner")
 public class UserBook {
 
 
-    /**Identifier user's books */
+    /** Identifier user's books */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    /**Username user's books */
-    @Column(name="USERNAME",nullable = false)
+    /** Username user's books */
+    @Column(name = "USERNAME", nullable = false)
+    @ApiModelProperty(notes = "Username, that could be any name the user wants for identifier", required = true)
     private String username;
-    /**First name user's books */
-    @Column(name="NAME",nullable = false)
+    /** First name user's books */
+    @Column(name = "NAME", nullable = false)
     private String name;
-    /**Date of birthday user's books */
-    @Column(name="BIRTHDATE",nullable = false)
+    /** Date of birthday user's books */
+    @Column(name = "BIRTHDATE", nullable = false)
     private LocalDate birthdate;
-    /**List user's books  */
+    /** List user's books */
     @ManyToMany
-    private List<Book> books =new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 
     /**
      * Empty constructor
@@ -44,10 +48,11 @@ public class UserBook {
 
     /**
      * Constructor with parameter of entity User
-     * @param username: user's name
+     *
+     * @param username:   user's name
      * @param name:user's name
-     * @param birthdate: Date of birthday
-     * @param books: List user's books
+     * @param birthdate:  Date of birthday
+     * @param books:      List user's books
      */
     public UserBook(String username, String name, LocalDate birthdate, List<Book> books) {
         this.username = username;
@@ -92,23 +97,25 @@ public class UserBook {
         this.books = books;
     }
 
-    public List<Book>  addBookList(Book book){
+    public List<Book> addBookList(Book book) {
         this.books.add(book);
         return this.books;
     }
 
-    public List<Book> deleteBookList(Book book){
+    public List<Book> deleteBookList(Book book) {
         this.books.remove(book);
         return this.books;
     }
 
     /**
      * Shows user object on string
+     *
      * @return {@link String} object shape in string
      */
     @Override
     public String toString() {
-        return "User [username=" + username + ", name=" + name + ", birthday=" + birthdate + ", books=" + books.toString() + "]";
+        return "User [username=" + username + ", name=" + name + ", birthday=" + birthdate + ", books=" + books
+                .toString() + "]";
 
     }
 }

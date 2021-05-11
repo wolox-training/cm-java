@@ -1,5 +1,10 @@
 package wolox.training.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,7 @@ import wolox.training.repositories.UserRepository;
  */
 @RestController
 @RequestMapping("/users")
+@Api
 public class UserController {
 
     /**
@@ -117,7 +123,15 @@ public class UserController {
      * @param idBook: Book's identify number
      */
     @PutMapping("/{idUser}/{idBook}")
-    public void addBookListUser(@PathVariable String idUser, @PathVariable String idBook) {
+    @ApiOperation(value = "Add a book to user's book collection")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "Not found user id"),
+            @ApiResponse(code = 404, message = "Not found book id")
+
+    })
+    public void addBookListUser(@ApiParam(value = "Id user book owner", required = true) @PathVariable String idUser,
+            @ApiParam(value = "Id book to add", required = true) @PathVariable String idBook) {
 
         UserBook user = userRepository.findById(Long.parseLong(idUser))
                 .orElseThrow(() -> new UserNotFoundException("Not found user id"));
