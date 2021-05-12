@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import com.google.common.base.Preconditions;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -74,6 +75,7 @@ public class Book {
 
     public void setGenre(String genre) {
         Preconditions.checkNotNull(genre, "genre cant be null");
+        Preconditions.checkArgument(!genre.isEmpty(), "genre cant be empty");
         this.genre = genre;
     }
 
@@ -84,6 +86,7 @@ public class Book {
     public void setAuthor(String author) {
 
         Preconditions.checkNotNull(author, "author cant be null");
+        Preconditions.checkArgument(!author.isEmpty(), "genre cant be empty");
         this.author = author;
     }
 
@@ -93,6 +96,7 @@ public class Book {
 
     public void setImage(String image) {
         Preconditions.checkNotNull(image, "image cant be null");
+        Preconditions.checkArgument(!image.isEmpty(), "image cant be empty");
         this.image = image;
     }
 
@@ -103,6 +107,7 @@ public class Book {
     public void setTitle(String title) {
 
         Preconditions.checkNotNull(title, "title cant be null");
+        Preconditions.checkArgument(!title.isEmpty(), "title cant be empty");
         this.title = title;
     }
 
@@ -113,6 +118,7 @@ public class Book {
     public void setSubtitle(String subtitle) {
 
         Preconditions.checkNotNull(subtitle, "subtitle cant be null");
+        Preconditions.checkArgument(!subtitle.isEmpty(), "subtitle cant be empty");
         this.subtitle = subtitle;
     }
 
@@ -123,6 +129,7 @@ public class Book {
     public void setPublisher(String publisher) {
 
         Preconditions.checkNotNull(publisher, "publisher cant be null");
+        Preconditions.checkArgument(!publisher.isEmpty(), "publisher cant be empty");
         this.publisher = publisher;
     }
 
@@ -133,6 +140,10 @@ public class Book {
     public void setYear(String year) {
 
         Preconditions.checkNotNull(year, "year cant be null");
+        Preconditions.checkArgument(!year.isEmpty(), "year cant be empty");
+        Preconditions.checkArgument(Long.parseLong(year) > 0, "year should be higher than Zero");
+        Preconditions
+                .checkArgument(Long.parseLong(year) < LocalDate.now().getYear(), "year should be less than this year");
         this.year = year;
     }
 
@@ -143,6 +154,7 @@ public class Book {
     public void setPages(String pages) {
 
         Preconditions.checkNotNull(pages, "pages cant be null");
+        Preconditions.checkArgument(!pages.isEmpty(), "pages cant be empty");
         this.pages = pages;
     }
 
@@ -153,6 +165,7 @@ public class Book {
     public void setIsbn(String isbn) {
 
         Preconditions.checkNotNull(isbn, "isbn cant be null");
+        Preconditions.checkArgument(!isbn.isEmpty(), "isbn cant be empty");
         this.isbn = isbn;
     }
 
