@@ -56,7 +56,7 @@ public class UserController {
      *
      * @return {@link UserBook} book's user
      */
-    @GetMapping("/username/{userUsername}")
+    @GetMapping("/username/{username}")
     public UserBook findByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
@@ -154,11 +154,10 @@ public class UserController {
      */
     @PutMapping("/{id}")
     public UserBook updateUserBook(@RequestBody UserBook userBook, @PathVariable Long id) {
-        if (userBook.getId() != id) {
-            throw new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER);
-        }
+
         userRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
+        userBook.setId(id);
         return userRepository.save(userBook);
     }
 
