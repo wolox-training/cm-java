@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
@@ -14,7 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 /**
- * This class permits manage user´s books
+ * This class permits to manage user´s books
  */
 
 @Entity
@@ -70,6 +71,7 @@ public class UserBook {
     }
 
     public void setUsername(String username) {
+        Preconditions.checkNotNull(username, "username cant be null");
         this.username = username;
     }
 
@@ -78,6 +80,8 @@ public class UserBook {
     }
 
     public void setName(String name) {
+        Preconditions.checkNotNull(name, "name cant be null");
+
         this.name = name;
     }
 
@@ -86,6 +90,8 @@ public class UserBook {
     }
 
     public void setBirthdate(LocalDate birthdate) {
+        Preconditions.checkNotNull(birthdate, "birthdate cant be null");
+        Preconditions.checkArgument(birthdate.isBefore(LocalDate.now()), "Birthday should be before");
         this.birthdate = birthdate;
     }
 
@@ -94,6 +100,7 @@ public class UserBook {
     }
 
     public void setBooks(List<Book> books) {
+        Preconditions.checkArgument(!books.isEmpty(), "must not be null");
         this.books = books;
     }
 
