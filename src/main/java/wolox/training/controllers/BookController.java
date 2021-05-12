@@ -1,10 +1,10 @@
 package wolox.training.controllers;
 
+import io.swagger.annotations.Api;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,6 @@ import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
 
-
 /**
  * This class permits create, update, deleted and list over Book object
  *
@@ -29,6 +28,8 @@ import wolox.training.repositories.BookRepository;
  */
 @RestController
 @RequestMapping("/books")
+@Api
+
 public class BookController {
 
     /**
@@ -39,19 +40,24 @@ public class BookController {
 
     /**
      * This method returns greeting string.
+     *
      * @param name:Name received as parameter from url
-     * @param model: Model  that set name to the view template
+     * @param model:    Model  that set name to the view template
+     *
      * @return greeting with name passed by parameter
      */
     @GetMapping("/greeting")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
+            Model model) {
         model.addAttribute("name", name);
         return "greeting";
     }
 
     /**
      * This method returns book's {@link List}, which match with title received as parameter
+     *
      * @param bookTitle book's title
+     *
      * @return {@link Optional} book's list
      */
     @GetMapping("/title/{bookTitle}")
@@ -61,7 +67,9 @@ public class BookController {
 
     /**
      * This method creates a book object
+     *
      * @param book: parameters
+     *
      * @return {@link Book} book created
      */
     @PostMapping
@@ -72,6 +80,7 @@ public class BookController {
 
     /**
      * This method deleted a book, which match with id received by parameter
+     *
      * @param id: Book's identify number
      */
     @DeleteMapping("/{id}")
@@ -83,8 +92,10 @@ public class BookController {
 
     /**
      * This method update a book received by parameter
+     *
      * @param book: Book object with update parameters
-     * @param id: Book's identify number
+     * @param id:   Book's identify number
+     *
      * @return {@link Book} book updated
      */
     @PutMapping("/{id}")
