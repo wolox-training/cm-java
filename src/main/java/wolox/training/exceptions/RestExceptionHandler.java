@@ -18,11 +18,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Intercepts custom exception BookNotFoundException and sends exception´s details
-     * @param ex: BookNotFoundException, exception received
+     *
+     * @param ex:      BookNotFoundException, exception received
      * @param request: request received
+     *
      * @return {@link ResponseEntity} response with object that contains exception´s details
      */
-    @ExceptionHandler({ BookNotFoundException.class })
+    @ExceptionHandler({BookNotFoundException.class})
     protected ResponseEntity<Object> handleNotFound(
             Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, "Book not found",
@@ -31,13 +33,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Intercepts custom exception BookIdMismatchException and sends exception´s details
-     * @param ex: BookIdMismatchException, exception received
+     *
+     * @param ex:      BookIdMismatchException, exception received
      * @param request: request received
+     *
      * @return {@link ResponseEntity} response with object that contains exception´s details
      */
-    @ExceptionHandler({ BookIdMismatchException.class,
+    @ExceptionHandler({BookIdMismatchException.class,
             ConstraintViolationException.class,
-            DataIntegrityViolationException.class })
+            DataIntegrityViolationException.class})
     public ResponseEntity<Object> handleBadRequest(
             Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getLocalizedMessage(),
@@ -46,11 +50,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Intercepts custom exception BookAlreadyOwnedException and sends exception´s details
-     * @param ex: BookAlreadyOwnedException, exception received
+     *
+     * @param ex:      BookAlreadyOwnedException, exception received
      * @param request: request received
+     *
      * @return {@link ResponseEntity} response with object that contains exception´s details
      */
-    @ExceptionHandler({ BookAlreadyOwnedException.class})
+    @ExceptionHandler({BookAlreadyOwnedException.class})
     public ResponseEntity<Object> handleAlreadyOwnedBook(
             Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getLocalizedMessage(),
@@ -59,15 +65,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     /**
      * Intercepts custom exception UserNotFoundException and sends exception´s details
-     * @param ex: UserNotFoundException, exception received
+     *
+     * @param ex:      UserNotFoundException, exception received
      * @param request: request received
+     *
      * @return {@link ResponseEntity} response with object that contains exception´s details
      */
-    @ExceptionHandler({ UserNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<Object> handleUserNotFoundException(
             Exception ex, WebRequest request) {
         return handleExceptionInternal(ex, ex.getLocalizedMessage(),
-                new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
 }
