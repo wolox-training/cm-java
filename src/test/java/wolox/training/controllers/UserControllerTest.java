@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -69,7 +70,7 @@ public class UserControllerTest {
     @Test
     public void whenAddUser_ThenCreatedOk() throws Exception {
 
-        String userBody = "{\"username\":\"caroTest\",\"name\":\"carolina\",\"birthdate\":\"1990-03-03\"}";
+        String userBody = "{\"username\":\"caroTest\",\"password\":\"123\",\"name\":\"carolina\",\"birthdate\":\"1990-03-03\"}";
         when(userRepository.save(user)).thenReturn(user);
 
         mvc.perform(post("/users")
@@ -80,6 +81,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenFindByName_ThenFoundOk() throws Exception {
 
         String userNamePath = "carolina";
@@ -95,6 +97,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenDeleteUserById_ThenDeletedOk() throws Exception {
 
         user.setId(1);
@@ -109,6 +112,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenUpdateUser_ThenUpdatedOk() throws Exception {
 
         user.setId(1);
@@ -127,6 +131,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenAddUserBook_ThenAddUserBookOk() throws Exception {
 
         user.setId(1);
@@ -143,6 +148,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenDeleteUserBook_ThenDeletedUserBookOk() throws Exception {
 
         user.setId(1);
@@ -160,6 +166,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenDeleteUserBook_ThenErrorBookNotFound() throws Exception {
 
         user.setId(1);

@@ -31,6 +31,8 @@ public class UserBook {
     @Column(name = "USERNAME", nullable = false)
     @ApiModelProperty(notes = "Username, that could be any name the user wants for identifier", required = true)
     private String username;
+    @Column(name = "PASSWORD", nullable = true)
+    private String password;
     /** First name user's books */
     @Column(name = "NAME", nullable = false)
     private String name;
@@ -77,6 +79,14 @@ public class UserBook {
     public void setUsername(String username) {
         Preconditions.checkNotNull(username, "username cant be null");
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

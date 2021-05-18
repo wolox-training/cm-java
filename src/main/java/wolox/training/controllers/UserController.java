@@ -8,8 +8,10 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -48,6 +50,9 @@ public class UserController {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     /**
      * This method returns a user {@link UserBook}, which match with username received as parameter
@@ -85,6 +90,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserBook create(@RequestBody UserBook user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -145,20 +151,34 @@ public class UserController {
     }
 
     /**
-     * This method update a user received by parameter
+     * This method update a user received by parameter, password isn't updated
      *
      * @param userBook: User object with update parameters
      * @param id:       User's identify number
      *
-     * @return {@link UserBook} book updated
+     * @return {@link UserBook} user updated without password
      */
     @PutMapping("/{id}")
     public UserBook updateUserBook(@RequestBody UserBook userBook, @PathVariable Long id) {
 
-        userRepository.findById(id)
+        UserBook userFind = userRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
         userBook.setId(id);
+        userBook.setPassword(userFind.getPassword());
         return userRepository.save(userBook);
+    }
+
+    /**
+     * Update only user's password
+     *
+     * @return {@link UserBook} user only password updated
+     */
+    @PatchMapping("/{username}")
+    public UserBook updatePasswordUser(@PathVariable String username) {
+        UserBook userFind = userRepository.findByUsername(username).
+                orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
+        userFind.setPassword(passwordEncoder.encode(userFind.getPassword()));
+        return userRepository.save(userFind);
     }
 
 

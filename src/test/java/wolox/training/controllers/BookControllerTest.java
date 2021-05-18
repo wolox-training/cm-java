@@ -18,8 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -33,17 +35,16 @@ import wolox.training.repositories.BookRepository;
 public class BookControllerTest {
 
 
+    TestRestTemplate restTemplateTest;
     @Autowired
     private MockMvc mvc;
     @MockBean
     private BookRepository bookRepository;
-
     private Book book;
 
     @BeforeEach
     public void setup() {
         book = new Book("comedian", "author", "image", "comedyTest", "subtitle", "norma", "2020", "pages", "isbn");
-
     }
 
     @Test
@@ -60,6 +61,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenFindByTitle_ThenFoundOk() throws Exception {
 
         String bookPath = "comedyTest";
@@ -71,12 +73,10 @@ public class BookControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("comedyTest"));
 
-        //Assertions.assertEquals("application/json", result.getResponse().getContentType());
-        //Assertions.assertEquals();
-
     }
 
     @Test
+    @WithMockUser
     public void whenDeleteById_ThenDeletedOk() throws Exception {
 
         book.setId(1);
@@ -91,6 +91,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenUpdateBook_ThenUpdatedOk() throws Exception {
 
         book.setId(1);
@@ -108,6 +109,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenUpdateBook_ThenErrorUpdated() throws Exception {
 
         book.setId(1);
@@ -117,11 +119,11 @@ public class BookControllerTest {
         when(bookRepository.findById(new Long(1))).thenReturn(optionalBook);
         when(bookRepository.save(book)).thenReturn(book);
 
-        MvcResult result = mvc.perform(put("/books/{id}", 1)
+        MvcResult result = mvc.perform(put("/books/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bookBody)).andReturn();
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
+        Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
 
     }
 

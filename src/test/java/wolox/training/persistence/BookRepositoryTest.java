@@ -3,7 +3,6 @@ package wolox.training.persistence;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,43 +12,43 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import wolox.training.models.UserBook;
-import wolox.training.repositories.UserRepository;
+import wolox.training.models.Book;
+import wolox.training.repositories.BookRepository;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryIntegrationTest {
+public class BookRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private UserRepository userRepository;
+    private BookRepository bookRepository;
 
     @Test
-    public void whenFindByName_thenReturnUser() {
+    public void whenFindByName_thenReturnBook() {
         // given
-        UserBook user = new UserBook("caroTest", "carolina", LocalDate.of(1990, 03, 03), null);
-        entityManager.persist(user);
+        Book book = new Book("comedian", "author", "image", "comedyTest", "subtitle", "norma", "2020", "pages", "isbn");
+        entityManager.persist(book);
         entityManager.flush();
 
         // when
-        Optional<UserBook> found = userRepository.findByName(user.getName());
+        Optional<Book> found = bookRepository.findByTitle(book.getTitle());
 
         // then
-        assertThat(found.get().getName()).isEqualTo(user.getName());
+        assertThat(found.get().getTitle()).isEqualTo(book.getTitle());
     }
 
     @Test
-    public void whenAddUserNullField_thenReturnDBError() {
+    public void whenAddBookNullField_thenReturnDBError() {
         // given
-        UserBook user = new UserBook();
-        user.setUsername("usernameTest");
+        Book book = new Book();
+        book.setImage("jsgj");
 
         // when
         DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class, () -> {
-            userRepository.save(user);
+            bookRepository.save(book);
         });
 
         // then
