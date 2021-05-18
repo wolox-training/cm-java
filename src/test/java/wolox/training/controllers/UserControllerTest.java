@@ -117,8 +117,8 @@ public class UserControllerTest {
 
         user.setId(1);
         Optional<UserBook> optionalUser = Optional.of(user);
+
         String userBody = "{\"id\":\"1\",\"username\":\"caroUpdateTest\",\"name\":\"carolinaUpdate\",\"birthdate\":\"1990-03-03\"}";
-        UserBook userUpdate = new UserBook("caroUpdateTest", "carolinaUpdate", LocalDate.of(1990, 03, 03), listBooks);
 
         when(userRepository.findById(new Long(1))).thenReturn(optionalUser);
         when(userRepository.save(user)).thenReturn(user);

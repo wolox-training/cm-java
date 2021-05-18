@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -35,7 +35,7 @@ import wolox.training.repositories.BookRepository;
 public class BookControllerTest {
 
 
-    TestRestTemplate restTemplateTest;
+    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private MockMvc mvc;
     @MockBean
@@ -50,7 +50,8 @@ public class BookControllerTest {
     @Test
     public void whenAddBook_ThenCreatedOk() throws Exception {
 
-        String bookBody = "{\"genre\":\"drama\",\"author\":\"author\",\"image\":\"image\",\"title\":\"book3\",\"subtitle\":\"subtitle\",\"publisher\":\"publisher\",\"year\":\"2020\",\"pages\":\"pages\",\"isbn\":\"isbn\"}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        String bookBody = objectMapper.writeValueAsString(book);
         when(bookRepository.save(book)).thenReturn(book);
 
         mvc.perform(post("/books")
@@ -96,7 +97,8 @@ public class BookControllerTest {
 
         book.setId(1);
         Optional<Book> optionalBook = Optional.of(book);
-        String bookBody = "{\"id\":\"1\",\"genre\":\"drama\",\"author\":\"author\",\"image\":\"image\",\"title\":\"book3\",\"subtitle\":\"subtitle\",\"publisher\":\"publisher\",\"year\":\"2020\",\"pages\":\"pages\",\"isbn\":\"isbn\"}";
+
+        String bookBody = objectMapper.writeValueAsString(book);
 
         when(bookRepository.findById(new Long(1))).thenReturn(optionalBook);
         when(bookRepository.save(book)).thenReturn(book);
@@ -114,8 +116,10 @@ public class BookControllerTest {
 
         book.setId(1);
         Optional<Book> optionalBook = Optional.of(book);
-        String bookBody = "{\"id\":\"2\",\"genre\":\"drama\",\"author\":\"author\",\"image\":\"image\",\"title\":\"book3\",\"subtitle\":\"subtitle\",\"publisher\":\"publisher\",\"year\":\"2020\",\"pages\":\"pages\",\"isbn\":\"isbn\"}";
-
+        Book bookUpdate = new Book("drama", "author", "image", "dramaTest", "subtitle", "norma", "2020", "pages",
+                "isbn");
+        bookUpdate.setId(2);
+        String bookBody = objectMapper.writeValueAsString(bookUpdate);
         when(bookRepository.findById(new Long(1))).thenReturn(optionalBook);
         when(bookRepository.save(book)).thenReturn(book);
 
