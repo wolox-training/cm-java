@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 /**
  * Spring main Book application
  */
-@EnableJpaRepositories("wolox.training.repositories")
+@EnableJpaRepositories(value = "wolox.training.repositories")
 @EntityScan("wolox.training.models")
 @SpringBootApplication
 public class TrainingApplication {

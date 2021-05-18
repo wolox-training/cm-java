@@ -70,7 +70,6 @@ public class UserBook {
         this.id = id;
     }
 
-
     public String getUsername() {
         return username;
     }
