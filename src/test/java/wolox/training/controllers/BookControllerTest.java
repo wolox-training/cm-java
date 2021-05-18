@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,11 +34,11 @@ import wolox.training.repositories.BookRepository;
 public class BookControllerTest {
 
 
+    ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private MockMvc mvc;
     @MockBean
     private BookRepository bookRepository;
-
     private Book book;
 
     @BeforeEach
@@ -49,7 +50,8 @@ public class BookControllerTest {
     @Test
     public void whenAddBook_ThenCreatedOk() throws Exception {
 
-        String bookBody = "{\"genre\":\"drama\",\"author\":\"author\",\"image\":\"image\",\"title\":\"book3\",\"subtitle\":\"subtitle\",\"publisher\":\"publisher\",\"year\":\"2020\",\"pages\":\"pages\",\"isbn\":\"isbn\"}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        String bookBody = objectMapper.writeValueAsString(book);
         when(bookRepository.save(book)).thenReturn(book);
 
         mvc.perform(post("/books")
@@ -70,9 +72,6 @@ public class BookControllerTest {
         mvc.perform(get("/books/title/{bookTitle}", "comedyTest"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("comedyTest"));
-
-        //Assertions.assertEquals("application/json", result.getResponse().getContentType());
-        //Assertions.assertEquals();
 
     }
 
@@ -95,7 +94,8 @@ public class BookControllerTest {
 
         book.setId(1);
         Optional<Book> optionalBook = Optional.of(book);
-        String bookBody = "{\"id\":\"1\",\"genre\":\"drama\",\"author\":\"author\",\"image\":\"image\",\"title\":\"book3\",\"subtitle\":\"subtitle\",\"publisher\":\"publisher\",\"year\":\"2020\",\"pages\":\"pages\",\"isbn\":\"isbn\"}";
+
+        String bookBody = objectMapper.writeValueAsString(book);
 
         when(bookRepository.findById(new Long(1))).thenReturn(optionalBook);
         when(bookRepository.save(book)).thenReturn(book);
@@ -112,16 +112,18 @@ public class BookControllerTest {
 
         book.setId(1);
         Optional<Book> optionalBook = Optional.of(book);
-        String bookBody = "{\"id\":\"2\",\"genre\":\"drama\",\"author\":\"author\",\"image\":\"image\",\"title\":\"book3\",\"subtitle\":\"subtitle\",\"publisher\":\"publisher\",\"year\":\"2020\",\"pages\":\"pages\",\"isbn\":\"isbn\"}";
-
+        Book bookUpdate = new Book("drama", "author", "image", "dramaTest", "subtitle", "norma", "2020", "pages",
+                "isbn");
+        bookUpdate.setId(2);
+        String bookBody = objectMapper.writeValueAsString(bookUpdate);
         when(bookRepository.findById(new Long(1))).thenReturn(optionalBook);
         when(bookRepository.save(book)).thenReturn(book);
 
-        MvcResult result = mvc.perform(put("/books/{id}", 1)
+        MvcResult result = mvc.perform(put("/books/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(bookBody)).andReturn();
 
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST.value(), result.getResponse().getStatus());
+        Assertions.assertEquals(HttpStatus.NOT_FOUND.value(), result.getResponse().getStatus());
 
     }
 
