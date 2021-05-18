@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -44,7 +45,6 @@ public class BookControllerTest {
     @BeforeEach
     public void setup() {
         book = new Book("comedian", "author", "image", "comedyTest", "subtitle", "norma", "2020", "pages", "isbn");
-
     }
 
     @Test
@@ -62,6 +62,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenFindByTitle_ThenFoundOk() throws Exception {
 
         String bookPath = "comedyTest";
@@ -76,6 +77,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenDeleteById_ThenDeletedOk() throws Exception {
 
         book.setId(1);
@@ -90,6 +92,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenUpdateBook_ThenUpdatedOk() throws Exception {
 
         book.setId(1);
@@ -108,6 +111,7 @@ public class BookControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenUpdateBook_ThenErrorUpdated() throws Exception {
 
         book.setId(1);
