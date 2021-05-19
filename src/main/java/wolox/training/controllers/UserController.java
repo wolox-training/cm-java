@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +67,18 @@ public class UserController {
     public UserBook findByUsername(@PathVariable String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
+    }
+
+    /**
+     * This method returns a username {@link UserBook}, which is logged right now
+     *
+     * @return {@link UserBook} book's user
+     */
+    @GetMapping("/username")
+    public Object getLoggedUser(Authentication authentication) {
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userDetails.getUsername();
     }
 
     /**
