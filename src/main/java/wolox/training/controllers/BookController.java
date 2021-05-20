@@ -70,6 +70,12 @@ public class BookController {
         return bookRepository.findByTitle(bookTitle);
     }
 
+    @GetMapping("/publisherGenreYear/{publisher}/{genre}/{year}")
+    public List<Book> findByGenrePublisherYear(@PathVariable String publisher, @PathVariable String genre,
+            @PathVariable String year) {
+        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+    }
+
     /**
      * This method creates a book object
      *

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.common.Constants;
@@ -92,6 +94,14 @@ public class UserController {
     public UserBook findByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
+    }
+
+    @GetMapping("/birthdayAndName")
+    public List<UserBook> findByBirthdayAndCharsName(@RequestParam String dateIni,
+            @RequestParam String dateEnd, @RequestParam String charsName) {
+        return userRepository
+                .findByBirthdateBetweenAndNameIgnoreCaseContaining(LocalDate.parse(dateIni), LocalDate.parse(dateEnd),
+                        charsName);
     }
 
     /**
