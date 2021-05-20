@@ -98,6 +98,18 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser
+    public void whenFindUserLogged_ThenFoundOk() throws Exception {
+
+        MvcResult result = mvc.perform(get("/users/username"))
+                .andExpect(status().isOk()).andReturn();
+
+        Assertions.assertEquals("user", result.getResponse().getContentAsString());
+
+
+    }
+
+    @Test
+    @WithMockUser
     public void whenDeleteUserById_ThenDeletedOk() throws Exception {
 
         user.setId(1);
