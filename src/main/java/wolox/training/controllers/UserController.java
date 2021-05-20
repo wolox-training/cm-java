@@ -97,11 +97,17 @@ public class UserController {
     }
 
     @GetMapping("/birthdayAndName")
-    public List<UserBook> findByBirthdayAndCharsName(@RequestParam String dateIni,
-            @RequestParam String dateEnd, @RequestParam String charsName) {
-        return userRepository
-                .findByBirthdateBetweenAndNameIgnoreCaseContaining(LocalDate.parse(dateIni), LocalDate.parse(dateEnd),
-                        charsName);
+    public List<UserBook> findByBirthdayAndCharsName(@RequestParam(required = false) String dateIni,
+            @RequestParam(required = false) String dateEnd, @RequestParam(required = false) String charsName) {
+        if (dateIni != null && dateEnd != null) {
+            return userRepository
+                    .findByBirthdateBetweenAndNameIgnoreCaseContaining(LocalDate.parse(dateIni),
+                            LocalDate.parse(dateEnd), charsName);
+        } else {
+            return userRepository
+                    .findByBirthdateBetweenAndNameIgnoreCaseContaining(null,
+                            null, charsName);
+        }
     }
 
     /**

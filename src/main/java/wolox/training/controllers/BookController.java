@@ -70,9 +70,10 @@ public class BookController {
         return bookRepository.findByTitle(bookTitle);
     }
 
-    @GetMapping("/publisherGenreYear/{publisher}/{genre}/{year}")
-    public List<Book> findByGenrePublisherYear(@PathVariable String publisher, @PathVariable String genre,
-            @PathVariable String year) {
+    @GetMapping("/publisherGenreYear")
+    public List<Book> findByGenrePublisherYear(@RequestParam(required = false) String publisher,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String year) {
         return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
     }
 
