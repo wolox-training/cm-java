@@ -78,4 +78,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
+    /**
+     * Intercepts custom exception BookInternalException and sends exception´s details
+     *
+     * @param ex:      BookInternalException, exception received
+     * @param request: request received
+     *
+     * @return {@link ResponseEntity} response with object that contains exception´s details
+     */
+    @ExceptionHandler({BookInternalException.class})
+    public ResponseEntity<Object> handleInternalError(
+            Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, ex.getLocalizedMessage(),
+                new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
 }

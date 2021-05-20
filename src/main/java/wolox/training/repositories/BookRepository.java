@@ -15,9 +15,22 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     /**
      * Permits find any exist book by its title
+     *
      * @param title: Title of book object
+     *
      * @return {@link Optional} Book's list
      */
     Optional<Book> findByTitle(String title);
+
+
+    /**
+     * Permits find any exist book by its isbn
+     *
+     * @param isbn: Title of book object
+     *
+     * @return {@link Optional} Book's list
+     */
+    Optional<Book> findByIsbn(String isbn);
+
 
 }

@@ -1,5 +1,6 @@
 package wolox.training.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.training.common.Constants;
+import wolox.training.exceptions.BookInternalException;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
+import wolox.training.service.OpenLibraryService;
 
 /**
  * This class permits create, update, deleted and list over Book object
@@ -32,6 +35,8 @@ import wolox.training.repositories.BookRepository;
 
 public class BookController {
 
+    @Autowired
+    OpenLibraryService openLibraryService;
     /**
      * Injects Book repository for book's operations
      */
@@ -108,5 +113,15 @@ public class BookController {
         return bookRepository.save(book);
     }
 
+    @GetMapping("/isbn/{isbn}")
+    public Optional<Book> findBookByIsbn(@PathVariable String isbn) {
+        try {
+            return openLibraryService.findBookByIsbn(isbn);
+        } catch (JsonProcessingException e) {
+            throw new BookInternalException(e.getMessage());
+
+        }
+
+    }
 
 }
