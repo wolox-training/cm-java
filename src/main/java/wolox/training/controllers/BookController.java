@@ -77,6 +77,46 @@ public class BookController {
         return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
     }
 
+    @GetMapping("/allBooks")
+    public List<Book> findByAnyParam(@RequestParam(required = false, defaultValue = "") String publisher,
+            @RequestParam(required = false, defaultValue = "") String genre,
+            @RequestParam(required = false, defaultValue = "") String year,
+            @RequestParam(required = false, defaultValue = "") String author,
+            @RequestParam(required = false, defaultValue = "") String image,
+            @RequestParam(required = false, defaultValue = "") String title,
+            @RequestParam(required = false, defaultValue = "") String subtitle,
+            @RequestParam(required = false, defaultValue = "") String pages,
+            @RequestParam(required = false, defaultValue = "") String isbn) {
+        if (publisher.isEmpty()) {
+            publisher = null;
+        }
+        if (genre.isEmpty()) {
+            genre = null;
+        }
+        if (year.isEmpty()) {
+            year = null;
+        }
+        if (author.isEmpty()) {
+            author = null;
+        }
+        if (image.isEmpty()) {
+            image = null;
+        }
+        if (title.isEmpty()) {
+            title = null;
+        }
+        if (subtitle.isEmpty()) {
+            subtitle = null;
+        }
+        if (pages.isEmpty()) {
+            pages = null;
+        }
+        if (isbn.isEmpty()) {
+            isbn = null;
+        }
+        return bookRepository.getAll(publisher, genre, year, author, image, title, subtitle, pages, isbn);
+    }
+
     /**
      * This method creates a book object
      *
