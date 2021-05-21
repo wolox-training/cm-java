@@ -1,8 +1,9 @@
 package wolox.training.repositories;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,7 +43,7 @@ public interface UserRepository extends JpaRepository<UserBook, Long> {
             + "WHERE ((cast(:dateIni as LocalDate) IS NULL) OR u.birthdate >= :dateIni) "
             + "AND ((cast(:dateEnd as LocalDate) IS NULL) OR u.birthdate <= :dateEnd) "
             + "AND (:charsName IS NULL OR UPPER(u.name) LIKE CONCAT('%',UPPER(:charsName),'%'))")
-    List<UserBook> findByBirthdateBetweenAndNameIgnoreCaseContaining(@Param("dateIni") LocalDate dateIni,
-            @Param("dateEnd") LocalDate dateEnd, @Param("charsName") String charsName);
+    Page<UserBook> findByBirthdateBetweenAndNameIgnoreCaseContaining(@Param("dateIni") LocalDate dateIni,
+            @Param("dateEnd") LocalDate dateEnd, @Param("charsName") String charsName, Pageable pageable);
 
 }
