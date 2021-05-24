@@ -90,13 +90,13 @@ public class UserController {
      *
      * @return {@link UserBook} book's user
      */
-    @GetMapping("/name/{name}")
+    @GetMapping("/{name}")
     public UserBook findByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
     }
 
-    @GetMapping("/birthdayAndName")
+    @GetMapping("/")
     public List<UserBook> findByBirthdayAndCharsName(@RequestParam(required = false) String dateIni,
             @RequestParam(required = false) String dateEnd, @RequestParam(required = false) String charsName) {
         if (dateIni != null && dateEnd != null) {

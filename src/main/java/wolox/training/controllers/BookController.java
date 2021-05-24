@@ -70,7 +70,7 @@ public class BookController {
         return bookRepository.findByTitle(bookTitle);
     }
 
-    @GetMapping("/publisherGenreYear")
+    @GetMapping("/")
     public List<Book> findByGenrePublisherYear(@RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year) {
