@@ -39,10 +39,20 @@ public class OpenLibraryService {
         return bookFind;
     }
 
+    public Optional<BookInfoDTO> findBookApiExternal(String isbn) throws JsonProcessingException {
+
+        Optional<BookInfoDTO> bookInfoDTO = Optional
+                .ofNullable(findBookInfo(isbn).orElseThrow(() -> new BookNotFoundException(
+                        Constants.MESSAGE_ERROR_NOT_FOUND_BOOK)));
+
+        return bookInfoDTO;
+
+    }
+
     private Optional<BookInfoDTO> findBookInfo(String isbn) throws JsonProcessingException {
 
         String bookInfo = new RestTemplate()
-                .getForObject(Constants.URL_EXTERNAL_API + isbn + Constants.URL_EXTERNAL_API_PARAM, String.class);
+                .getForObject(Constants.URL_LOCAL, String.class);
 
         Map<String, BookInfoDTO> map = new ObjectMapper()
                 .readValue(bookInfo, new TypeReference<HashMap<String, BookInfoDTO>>() {

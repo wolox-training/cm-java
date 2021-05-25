@@ -11,5 +11,6 @@ public class Constants {
     public static final String KEY_ISBN = "ISBN:";
     public static final String SORT_BOOK = "title";
     public static final String SORT_USER = "name";
+    public static final String URL_LOCAL = "http://localhost:8080/api/books";
 
 }
