@@ -90,7 +90,7 @@ public class UserController {
      *
      * @return {@link UserBook} book's user
      */
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public UserBook findByName(@PathVariable String name) {
         return userRepository.findByName(name)
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
