@@ -96,7 +96,7 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
     }
 
-    @GetMapping("/birthdayAndName")
+    @GetMapping("/")
     public List<UserBook> findByBirthdayAndCharsName(@RequestParam(required = false) String dateIni,
             @RequestParam(required = false) String dateEnd, @RequestParam(required = false) String charsName) {
         if (dateIni != null && dateEnd != null) {
