@@ -45,5 +45,19 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByPublisherAndGenreAndYear(@Param("publisher") String publisher, @Param("genre") String genre,
             @Param("year") String year);
 
+    @Query("select b from Book b "
+            + "where (:publisher IS NULL OR b.publisher = :publisher) "
+            + "and (:year IS NULL OR b.year = :year) "
+            + "and (:genre IS NULL OR b.genre = :genre)"
+            + "and (:author IS NULL OR b.author = :author)"
+            + "and (:image IS NULL OR b.image = :image)"
+            + "and (:title IS NULL OR b.title = :title)"
+            + "and (:subtitle IS NULL OR b.subtitle = :subtitle)"
+            + "and (:pages IS NULL OR b.pages = :pages)"
+            + "and (:isbn IS NULL OR b.isbn = :isbn)")
+    List<Book> getAll(@Param("publisher") String publisher, @Param("genre") String genre,
+            @Param("year") String year, @Param("author") String author, @Param("image") String image,
+            @Param("title") String title,
+            @Param("subtitle") String subtitle, @Param("pages") String pages, @Param("isbn") String isbn);
 
 }

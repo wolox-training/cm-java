@@ -71,10 +71,16 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public List<Book> findByGenrePublisherYear(@RequestParam(required = false) String publisher,
+    public List<Book> findByAnyParam(@RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
-            @RequestParam(required = false) String year) {
-        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year);
+            @RequestParam(required = false) String year,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String image,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String subtitle,
+            @RequestParam(required = false) String pages,
+            @RequestParam(required = false) String isbn) {
+        return bookRepository.getAll(publisher, genre, year, author, image, title, subtitle, pages, isbn);
     }
 
     /**
