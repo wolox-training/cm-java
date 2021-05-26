@@ -13,11 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import lombok.Data;
+import lombok.NonNull;
 
 /**
  * This class permits to manage user´s books
  */
 
+@Data
 @Entity
 @ApiModel(description = "Users, who are book's owner")
 public class UserBook {
@@ -28,15 +31,18 @@ public class UserBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     /** Username user's books */
+    @NonNull
     @Column(name = "USERNAME", nullable = false)
     @ApiModelProperty(notes = "Username, that could be any name the user wants for identifier", required = true)
     private String username;
     @Column(name = "PASSWORD", nullable = true)
     private String password;
     /** First name user's books */
+    @NonNull
     @Column(name = "NAME", nullable = false)
     private String name;
     /** Date of birthday user's books */
+    @NonNull
     @Column(name = "BIRTHDATE", nullable = false)
     private LocalDate birthdate;
     /** List user's books */
@@ -64,45 +70,6 @@ public class UserBook {
         this.books = books;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        Preconditions.checkNotNull(username, "username cant be null");
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        Preconditions.checkNotNull(name, "name cant be null");
-
-        this.name = name;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
     public void setBirthdate(LocalDate birthdate) {
         Preconditions.checkNotNull(birthdate, "birthdate cant be null");
         Preconditions.checkArgument(birthdate.isBefore(LocalDate.now()), "Birthday should be before");
@@ -126,17 +93,5 @@ public class UserBook {
     public List<Book> deleteBookList(Book book) {
         this.books.remove(book);
         return this.books;
-    }
-
-    /**
-     * Shows user object on string
-     *
-     * @return {@link String} object shape in string
-     */
-    @Override
-    public String toString() {
-        return "User [username=" + username + ", name=" + name + ", birthday=" + birthdate + ", books=" + books
-                .toString() + "]";
-
     }
 }
