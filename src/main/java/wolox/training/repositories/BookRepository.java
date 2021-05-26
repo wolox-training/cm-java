@@ -3,6 +3,8 @@ package wolox.training.repositories;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import wolox.training.models.Book;
 
@@ -36,7 +38,12 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     /**
      * Find all books which do match with publisher, genre and year
      */
-    List<Book> findByPublisherAndGenreAndYear(String publisher, String genre, String year);
+    @Query("select b from Book b "
+            + "where (:publisher IS NULL OR b.publisher = :publisher) "
+            + "and (:year IS NULL OR b.year = :year) "
+            + "and (:genre IS NULL OR b.genre = :genre)")
+    List<Book> findByPublisherAndGenreAndYear(@Param("publisher") String publisher, @Param("genre") String genre,
+            @Param("year") String year);
 
 
 }
