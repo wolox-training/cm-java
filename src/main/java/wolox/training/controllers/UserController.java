@@ -8,6 +8,10 @@ import io.swagger.annotations.ApiResponses;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,17 +100,19 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
     }
 
+
     @GetMapping("/")
-    public List<UserBook> findByBirthdayAndCharsName(@RequestParam(required = false) String dateIni,
+    public Page<UserBook> findByBirthdayAndCharsName(@RequestParam(required = false) String dateIni,
             @RequestParam(required = false) String dateEnd, @RequestParam(required = false) String charsName) {
+        Pageable sortedByName = PageRequest.of(0, 10, Sort.by(Constants.SORT_USER));
         if (dateIni != null && dateEnd != null) {
             return userRepository
                     .findByBirthdateBetweenAndNameIgnoreCaseContaining(LocalDate.parse(dateIni),
-                            LocalDate.parse(dateEnd), charsName);
+                            LocalDate.parse(dateEnd), charsName, sortedByName);
         } else {
             return userRepository
                     .findByBirthdateBetweenAndNameIgnoreCaseContaining(null,
-                            null, charsName);
+                            null, charsName, sortedByName);
         }
     }
 

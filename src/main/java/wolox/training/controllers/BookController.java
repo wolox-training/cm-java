@@ -5,6 +5,11 @@ import io.swagger.annotations.Api;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,8 +75,18 @@ public class BookController {
         return bookRepository.findByTitle(bookTitle);
     }
 
+
+    @GetMapping("/publisherGenreYear")
+    public Page<Book> findByGenrePublisherYear(@RequestParam(required = false) String publisher,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String year,
+            @PageableDefault(sort = {Constants.SORT_BOOK}, value = 5) Pageable pageable) {
+
+        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year, pageable);
+    }
+
     @GetMapping("/")
-    public List<Book> findByAnyParam(@RequestParam(required = false) String publisher,
+    public Page<Book> findByAnyParam(@RequestParam(required = false) String publisher,
             @RequestParam(required = false) String genre,
             @RequestParam(required = false) String year,
             @RequestParam(required = false) String author,
@@ -80,7 +95,10 @@ public class BookController {
             @RequestParam(required = false) String subtitle,
             @RequestParam(required = false) String pages,
             @RequestParam(required = false) String isbn) {
-        return bookRepository.getAll(publisher, genre, year, author, image, title, subtitle, pages, isbn);
+
+        Pageable sortedByTitle = PageRequest.of(0, 10, Sort.by(Constants.SORT_BOOK));
+        return bookRepository
+                .getAll(publisher, genre, year, author, image, title, subtitle, pages, isbn, sortedByTitle);
     }
 
     /**
