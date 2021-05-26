@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import wolox.training.common.Constants;
@@ -20,6 +21,9 @@ public class OpenLibraryService {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     public Optional<Book> findBookByIsbn(String isbn) throws JsonProcessingException {
 
@@ -51,8 +55,14 @@ public class OpenLibraryService {
 
     private Optional<BookInfoDTO> findBookInfo(String isbn) throws JsonProcessingException {
 
-        String bookInfo = new RestTemplate()
-                .getForObject(Constants.URL_LOCAL, String.class);
+        String bookInfo;
+        if (this.activeProfile.equals(Constants.PROFILE_TEST)) {
+            bookInfo = new RestTemplate()
+                    .getForObject(Constants.URL_LOCAL, String.class);
+        } else {
+            bookInfo = new RestTemplate()
+                    .getForObject(Constants.URL_EXTERNAL_API + isbn + Constants.URL_EXTERNAL_API_PARAM, String.class);
+        }
 
         Map<String, BookInfoDTO> map = new ObjectMapper()
                 .readValue(bookInfo, new TypeReference<HashMap<String, BookInfoDTO>>() {

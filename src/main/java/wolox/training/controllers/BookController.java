@@ -84,7 +84,7 @@ public class BookController {
             @RequestParam(required = false) String subtitle,
             @RequestParam(required = false) String pages,
             @RequestParam(required = false) String isbn) {
-        
+
         Pageable sortedByTitle = PageRequest.of(0, 10, Sort.by(Constants.SORT_BOOK));
         return bookRepository
                 .getAll(publisher, genre, year, author, image, title, subtitle, pages, isbn, sortedByTitle);
