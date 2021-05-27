@@ -131,4 +131,40 @@ public class BookControllerTest {
 
     }
 
+    @Test
+    @WithMockUser
+    public void whenRequestWiremock_ResponseOk() throws Exception {
+
+        when(bookRepository.findById(new Long(1))).thenReturn(null);
+        when(bookRepository.save(book)).thenReturn(book);
+
+        MvcResult result = mvc.perform(get("/books/isbn/{isbn}", "0385472579")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        Assertions.assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+    }
+
+    @Test
+    @WithMockUser
+    public void whenRequestWiremock_MappingOk() throws Exception {
+
+        when(bookRepository.findById(new Long(1))).thenReturn(null);
+        when(bookRepository.save(book)).thenReturn(book);
+
+        mvc.perform(get("/books/isbn/{isbn}", "0385472579")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Zen speaks"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.subtitle").value("shouts of nothingness"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value("Zhizhong Cai"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("0385472579"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value("Anchor Books"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.year").value("1994"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.pages").value("159"));
+
+
+    }
+
+
 }

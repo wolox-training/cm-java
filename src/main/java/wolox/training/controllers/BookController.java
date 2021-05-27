@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -73,16 +72,6 @@ public class BookController {
     @GetMapping("/title/{bookTitle}")
     public Optional<Book> findByTitle(@PathVariable String bookTitle) {
         return bookRepository.findByTitle(bookTitle);
-    }
-
-
-    @GetMapping("/publisherGenreYear")
-    public Page<Book> findByGenrePublisherYear(@RequestParam(required = false) String publisher,
-            @RequestParam(required = false) String genre,
-            @RequestParam(required = false) String year,
-            @PageableDefault(sort = {Constants.SORT_BOOK}, value = 5) Pageable pageable) {
-
-        return bookRepository.findByPublisherAndGenreAndYear(publisher, genre, year, pageable);
     }
 
     @GetMapping("/")
