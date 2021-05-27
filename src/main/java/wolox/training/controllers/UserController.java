@@ -100,7 +100,7 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException(Constants.MESSAGE_ERROR_NOT_FOUND_USER));
     }
 
-    @GetMapping("/birthdayAndName")
+    @GetMapping("/")
     public Page<UserBook> findByBirthdayAndCharsName(@RequestParam(required = false) String dateIni,
             @RequestParam(required = false) String dateEnd, @RequestParam(required = false) String charsName) {
         Pageable sortedByName = PageRequest.of(0, 10, Sort.by(Constants.SORT_USER));

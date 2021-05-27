@@ -8,13 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Permits generate and manage entity Book object
  */
 @Data
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Book {
 
     /**
@@ -59,23 +63,6 @@ public class Book {
     @NonNull
     @Column(name = "ISBN", nullable = false)
     private String isbn;
-
-    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year,
-            String pages, String isbn) {
-        super();
-        this.genre = genre;
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.pages = pages;
-        this.isbn = isbn;
-    }
-
-    public Book() {
-    }
 
     public void setYear(String year) {
 

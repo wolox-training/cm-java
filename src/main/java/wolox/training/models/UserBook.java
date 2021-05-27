@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -23,6 +24,7 @@ import lombok.NonNull;
 @Data
 @Entity
 @ApiModel(description = "Users, who are book's owner")
+@NoArgsConstructor
 public class UserBook {
 
 
@@ -49,11 +51,6 @@ public class UserBook {
     @ManyToMany
     private List<Book> books = new ArrayList<>();
 
-    /**
-     * Empty constructor
-     */
-    public UserBook() {
-    }
 
     /**
      * Constructor with parameter of entity User

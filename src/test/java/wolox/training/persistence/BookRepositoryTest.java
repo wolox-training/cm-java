@@ -29,7 +29,8 @@ public class BookRepositoryTest {
     @Test
     public void whenFindByName_thenReturnBook() {
         // given
-        Book book = new Book("comedian", "author", "image", "comedyTest", "subtitle", "norma", "2020", "pages", "isbn");
+        Book book = new Book("comedian", "author", "image", "comedyTest", "subtitle", "norma", "2020", "pages",
+                "isbn");
         entityManager.persist(book);
         entityManager.flush();
 
