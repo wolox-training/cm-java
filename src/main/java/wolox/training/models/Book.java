@@ -7,11 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Permits generate and manage entity Book object
  */
+@Data
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class Book {
 
     /**
@@ -21,125 +28,41 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     /** Genre for book entity */
+    @NonNull
     @Column(name = "GENRE", nullable = false)
     private String genre;
     /** Author for book entity */
+    @NonNull
     @Column(name = "AUTHOR", nullable = false)
     private String author;
     /** Image for book entity */
+    @NonNull
     @Column(name = "IMAGE", nullable = false)
     private String image;
     /** Title for book entity */
+    @NonNull
     @Column(name = "TITLE", nullable = false)
     private String title;
     /** Subtitle for book entity */
+    @NonNull
     @Column(name = "SUBTITLE", nullable = false)
     private String subtitle;
     /** Publisher for book entity */
+    @NonNull
     @Column(name = "PUBLISHER", nullable = false)
     private String publisher;
     /** Year publish for book entity */
+    @NonNull
     @Column(name = "YEAR", nullable = false)
     private String year;
     /** Number pages for book entity */
+    @NonNull
     @Column(name = "PAGES", nullable = false)
     private String pages;
     /** Number ISBN for book entity */
+    @NonNull
     @Column(name = "ISBN", nullable = false)
     private String isbn;
-
-    public Book(String genre, String author, String image, String title, String subtitle, String publisher, String year,
-            String pages, String isbn) {
-        super();
-        this.genre = genre;
-        this.author = author;
-        this.image = image;
-        this.title = title;
-        this.subtitle = subtitle;
-        this.publisher = publisher;
-        this.year = year;
-        this.pages = pages;
-        this.isbn = isbn;
-    }
-
-    public Book() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        Preconditions.checkNotNull(genre, "genre cant be null");
-        Preconditions.checkArgument(!genre.isEmpty(), "genre cant be empty");
-        this.genre = genre;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-
-        Preconditions.checkNotNull(author, "author cant be null");
-        Preconditions.checkArgument(!author.isEmpty(), "genre cant be empty");
-        this.author = author;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        Preconditions.checkNotNull(image, "image cant be null");
-        Preconditions.checkArgument(!image.isEmpty(), "image cant be empty");
-        this.image = image;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-
-        Preconditions.checkNotNull(title, "title cant be null");
-        Preconditions.checkArgument(!title.isEmpty(), "title cant be empty");
-        this.title = title;
-    }
-
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-
-        Preconditions.checkNotNull(subtitle, "subtitle cant be null");
-        Preconditions.checkArgument(!subtitle.isEmpty(), "subtitle cant be empty");
-        this.subtitle = subtitle;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-
-        Preconditions.checkNotNull(publisher, "publisher cant be null");
-        Preconditions.checkArgument(!publisher.isEmpty(), "publisher cant be empty");
-        this.publisher = publisher;
-    }
-
-    public String getYear() {
-        return year;
-    }
 
     public void setYear(String year) {
 
@@ -151,34 +74,4 @@ public class Book {
         this.year = year;
     }
 
-    public String getPages() {
-        return pages;
-    }
-
-    public void setPages(String pages) {
-
-        Preconditions.checkNotNull(pages, "pages cant be null");
-        Preconditions.checkArgument(!pages.isEmpty(), "pages cant be empty");
-        this.pages = pages;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-
-        Preconditions.checkNotNull(isbn, "isbn cant be null");
-        Preconditions.checkArgument(!isbn.isEmpty(), "isbn cant be empty");
-        this.isbn = isbn;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Book [id=" + id + ", genre=" + genre + ", author=" + author + ", image=" + image + ", title=" + title
-                + ", subtitle=" + subtitle + ", publisher=" + publisher + ", year" + year + ", pages=" + pages
-                + ", isbn=" + isbn + "]";
-
-    }
 }
