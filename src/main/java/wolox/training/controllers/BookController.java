@@ -39,13 +39,18 @@ import wolox.training.service.OpenLibraryService;
 
 public class BookController {
 
-    @Autowired
+
     OpenLibraryService openLibraryService;
     /**
      * Injects Book repository for book's operations
      */
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    BookController(OpenLibraryService openLibraryService) {
+        this.openLibraryService = openLibraryService;
+    }
 
     /**
      * This method returns greeting string.

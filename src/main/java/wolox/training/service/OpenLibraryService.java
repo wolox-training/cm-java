@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import wolox.training.common.Constants;
+import wolox.training.controllers.BookController;
 import wolox.training.dto.BookInfoDTO;
 import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
@@ -19,11 +20,19 @@ import wolox.training.repositories.BookRepository;
 @Service
 public class OpenLibraryService {
 
-    @Autowired
     BookRepository bookRepository;
-
     @Value("${spring.profiles.active}")
     private String activeProfile;
+
+    @Value("${spring.api.uri}")
+    private String uriExternalApi;
+
+    private BookController bookController;
+
+    @Autowired
+    public OpenLibraryService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public Optional<Book> findBookByIsbn(String isbn) throws JsonProcessingException {
 
@@ -56,13 +65,10 @@ public class OpenLibraryService {
     private Optional<BookInfoDTO> findBookInfo(String isbn) throws JsonProcessingException {
 
         String bookInfo;
-        if (this.activeProfile.equals(Constants.PROFILE_TEST)) {
-            bookInfo = new RestTemplate()
-                    .getForObject(Constants.URL_LOCAL, String.class);
-        } else {
-            bookInfo = new RestTemplate()
-                    .getForObject(Constants.URL_EXTERNAL_API + isbn + Constants.URL_EXTERNAL_API_PARAM, String.class);
-        }
+
+        bookInfo = new RestTemplate()
+                .getForObject(uriExternalApi + Constants.URL_EXTERNAL_API + isbn + Constants.URL_EXTERNAL_API_PARAM,
+                        String.class);
 
         Map<String, BookInfoDTO> map = new ObjectMapper()
                 .readValue(bookInfo, new TypeReference<HashMap<String, BookInfoDTO>>() {
